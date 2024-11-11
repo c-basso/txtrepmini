@@ -8,9 +8,7 @@ export const IndexPage: FC = () => {
   return (
     <Page back={false}>
       <List>
-
         <Section
-          header="Text Tools"
         >
           <Link to="/text-repeater">
             <Cell

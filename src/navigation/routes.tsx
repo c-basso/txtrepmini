@@ -1,6 +1,7 @@
 import type { ComponentType, JSX } from 'react';
 
-import { IndexPage } from '@/pages/IndexPage/IndexPage';
+import { IndexPage } from '@/pages/IndexPage';
+import { TextRepeaterPage } from '@/pages/TextRepeaterPage';
 
 interface Route {
   path: string;
@@ -10,5 +11,6 @@ interface Route {
 }
 
 export const routes: Route[] = [
-  { path: '/', Component: IndexPage }
+  { path: '/', Component: IndexPage },
+  { path: '/text-repeater', Component: TextRepeaterPage }
 ];
