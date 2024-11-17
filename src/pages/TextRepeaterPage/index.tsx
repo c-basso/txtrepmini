@@ -1,4 +1,4 @@
-import { Page } from '@/components/Page.tsx';
+import { Page } from '@/components/Page';
 import { RepeatForm } from './RepeatForm';
 
 export const TextRepeaterPage = () => {

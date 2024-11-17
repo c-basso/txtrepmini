@@ -17,6 +17,27 @@ export const IndexPage: FC = () => {
                 Text Repeater
             </Cell>
           </Link>
+          <Link to="/text-to-emoji">
+            <Cell
+              subtitle='You can write text using emoji'
+            >
+                Text to Emoji
+            </Cell>
+          </Link>
+          <Link to="/upper">
+            <Cell
+              subtitle='Make text big or small'
+            >
+                Upper/Lower case text
+            </Cell>
+          </Link>
+          <Link to="/fonts">
+            <Cell
+              subtitle='Beautiful fonts for your messages'
+            >
+                Fonts for messages
+            </Cell>
+          </Link>
         </Section>
       </List>
     </Page>

@@ -1,7 +1,7 @@
-import { Button, Cell, List, Modal, Section, Slider, Snackbar, Switch, Textarea } from '@telegram-apps/telegram-ui';
-import { ModalHeader } from '@telegram-apps/telegram-ui/dist/components/Overlays/Modal/components/ModalHeader/ModalHeader';
+import { Button, Cell, List, Section, Slider, Switch, Textarea, Text } from '@telegram-apps/telegram-ui';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { ResultModal } from '@/components/ResultModal';
+import runes from 'runes';
 
 const MIN_REPEAT = 2;
 const MAX_TEXT_FREE = 100;
@@ -11,7 +11,6 @@ const MAX_REPEAT_PREMIUM = 100;
 
 const premium = false;
 
-
 export const RepeatForm = () => {
     const [text, setText] = useState('');
     const [result, setResult] = useState('');
@@ -19,8 +18,6 @@ export const RepeatForm = () => {
     const [showResult, setShowResult] = useState(false);
     const [inserNewLine, setInserNewLine] = useState(false);
     const [submitDisabled, setSubmitDisabled] = useState(true);
-
-    const [snak, setSnak] = useState(false);
 
     const [maxText] = useState(premium ? MAX_TEXT_PREMIUM : MAX_TEXT_FREE);
     const [maxRepeat] = useState(premium ? MAX_REPEAT_PREMIUM : MAX_REPEAT_FREE);
@@ -38,11 +35,6 @@ export const RepeatForm = () => {
     const onChangeInserNewLine = useCallback(() => {
         setInserNewLine((value) => !value);
     }, []);
-
-    const onCopyText = () => {
-        setShowResult(false);
-        setSnak(true);
-    }
 
     const onSubmit = useCallback(() => {
         Promise.resolve()
@@ -71,15 +63,32 @@ export const RepeatForm = () => {
     return (
         <>
             <List>
-                <Section>
+                <Section
+                    footer={
+                        <div
+                            style={{
+                                padding: '0 20px',
+                                textAlign: 'right'
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 12
+                                }}
+                            >
+                                Characters left: {maxText - runes(text).length}
+                            </Text>
+                        </div>
+                    }
+                >
                     <Textarea
-                        placeholder="I am usual textarea"
+                        placeholder='Text to repeat'
                         value={text}
                         onChange={onChangeText}
                         maxLength={maxText}
                     />
                 </Section>
-                <Section header="Repeat times">
+                <Section header={`Repeat times ${count}`}>
                     <Slider
                         min={MIN_REPEAT}
                         max={maxRepeat}
@@ -112,42 +121,11 @@ export const RepeatForm = () => {
                 </Section>
             </List>
 
-            <Modal
-                header={<ModalHeader />}
-                open={showResult}
-                modal
-                dismissible
-                onOpenChange={setShowResult}
-            >
-                <List
-                    style={{
-                        padding: '0 20px 40px'
-                    }}
-                >
-                    <Section
-                        style={{
-                            height: '300px',
-                            overflow: 'auto'
-                        }}
-                    >
-                        <pre>{result}</pre>
-                    </Section>
-                    <CopyToClipboard
-                        text={result}
-                        onCopy={onCopyText}
-                    >
-                        <Button>Copy</Button>
-                    </CopyToClipboard>
-                </List>
-            </Modal>
-
-            {snak && (
-                <Snackbar
-                    onClose={() => setSnak(false)}
-                >
-                    Copied!
-                </Snackbar>
-            )}
+            <ResultModal
+                result={result}
+                showResult={showResult}
+                setShowResult={setShowResult}
+            />
         </>
     );
 }
